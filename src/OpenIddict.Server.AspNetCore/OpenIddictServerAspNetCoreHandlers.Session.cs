@@ -84,9 +84,9 @@ public static partial class OpenIddictServerAspNetCoreHandlers
 #if SUPPORTS_MULTIPLE_VALUES_IN_QUERYHELPERS
                 var location = QueryHelpers.AddQueryString(context.RequestUri.GetLeftPart(UriPartial.Path),
                     from parameter in context.Response.GetParameters()
-                    let values = (string?[]?) parameter.Value
+                    let values = (ImmutableArray<string?>?) parameter.Value
                     where values is not null
-                    from value in values
+                    from value in values.GetValueOrDefault()
                     where !string.IsNullOrEmpty(value)
                     select KeyValuePair.Create(parameter.Key, value));
 #else
@@ -94,9 +94,9 @@ public static partial class OpenIddictServerAspNetCoreHandlers
 
                 foreach (var (key, value) in
                     from parameter in context.Response.GetParameters()
-                    let values = (string?[]?) parameter.Value
+                    let values = (ImmutableArray<string?>?) parameter.Value
                     where values is not null
-                    from value in values
+                    from value in values.GetValueOrDefault()
                     where !string.IsNullOrEmpty(value)
                     select (parameter.Key, Value: value))
                 {
@@ -154,9 +154,9 @@ public static partial class OpenIddictServerAspNetCoreHandlers
 #if SUPPORTS_MULTIPLE_VALUES_IN_QUERYHELPERS
                 var location = QueryHelpers.AddQueryString(context.PostLogoutRedirectUri,
                     from parameter in context.Response.GetParameters()
-                    let values = (string?[]?) parameter.Value
+                    let values = (ImmutableArray<string?>?) parameter.Value
                     where values is not null
-                    from value in values
+                    from value in values.GetValueOrDefault()
                     where !string.IsNullOrEmpty(value)
                     select KeyValuePair.Create(parameter.Key, value));
 #else
@@ -164,9 +164,9 @@ public static partial class OpenIddictServerAspNetCoreHandlers
 
                 foreach (var (key, value) in
                     from parameter in context.Response.GetParameters()
-                    let values = (string?[]?) parameter.Value
+                    let values = (ImmutableArray<string?>?) parameter.Value
                     where values is not null
-                    from value in values
+                    from value in values.GetValueOrDefault()
                     where !string.IsNullOrEmpty(value)
                     select (parameter.Key, Value: value))
                 {
